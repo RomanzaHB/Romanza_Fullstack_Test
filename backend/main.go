@@ -98,8 +98,12 @@ func main() {
 	// Wrap router with simple CORS middleware for local development
 	handler := corsMiddleware(r)
 
-	log.Println("Backend running at :8080")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Println("Backend running at :" + port)
+	log.Fatal(http.ListenAndServe(":"+port, handler))
 }
 
 // corsMiddleware allows requests from localhost:3000 for development (simple, not for production)
